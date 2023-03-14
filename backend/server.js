@@ -2,8 +2,23 @@ import express from "express";
 import rootRoutes from "./routes/root.js";
 import createHttpError from "http-errors";
 import path from "path";
+import livereload from "livereload";
+import connectLiveReload from "connect-livereload";
 
 const app = express();
+
+if (process.env.NODE_ENV === "development") {
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.watch(path.join(".", "backend", "static"));
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+
+  app.use(connectLiveReload());
+}
+
 const PORT = process.env.PORT || 3000;
 
 app.set("views", path.join(".", "backend", "views"));
