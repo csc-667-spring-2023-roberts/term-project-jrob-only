@@ -1,8 +1,9 @@
 import express from "express";
+
 const router = express.Router();
 
-router.get("/", (request, response) => {
-  response.send("Hello from a route");
+router.get("/", (_request, response) => {
+  response.send("Hello from the root route");
 });
 
 export default router;
