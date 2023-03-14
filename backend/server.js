@@ -4,8 +4,14 @@ import createHttpError from "http-errors";
 import path from "path";
 import livereload from "livereload";
 import connectLiveReload from "connect-livereload";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 const app = express();
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
   const liveReloadServer = livereload.createServer();
