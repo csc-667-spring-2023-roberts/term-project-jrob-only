@@ -10,6 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/csc-667-spring-2023-roberts/term-project-jrob-only.git"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
