@@ -1,11 +1,14 @@
 import express from "express";
-import rootRoutes from "./routes/root.js";
 import createHttpError from "http-errors";
 import path from "path";
 import livereload from "livereload";
 import connectLiveReload from "connect-livereload";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import homeRoutes from "./routes/static/home.js";
+import gamesRoutes from "./routes/static/games.js";
+import lobbyRoutes from "./routes/static/lobby.js";
+import authenticationRoutes from "./routes/static/authentication.js";
 
 const app = express();
 app.use(morgan("dev"));
@@ -32,7 +35,10 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(".", "backend", "static")));
 
-app.use("/", rootRoutes);
+app.use("/", homeRoutes);
+app.use("/games", gamesRoutes);
+app.use("/lobby", lobbyRoutes);
+app.use("/authentication", authenticationRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
