@@ -1,14 +1,14 @@
-import express from "express";
-import createHttpError from "http-errors";
-import path from "path";
-import livereload from "livereload";
-import connectLiveReload from "connect-livereload";
-import morgan from "morgan";
-import cookieParser from "cookie-parser";
-import homeRoutes from "./routes/static/home.js";
-import gamesRoutes from "./routes/static/games.js";
-import lobbyRoutes from "./routes/static/lobby.js";
-import authenticationRoutes from "./routes/static/authentication.js";
+const express = require("express");
+const createHttpError = require("http-errors");
+const path = require("path");
+const livereload = require("livereload");
+const connectLiveReload = require("connect-livereload");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const homeRoutes = require("./routes/static/home.js");
+const gamesRoutes = require("./routes/static/games.js");
+const lobbyRoutes = require("./routes/static/lobby.js");
+const authenticationRoutes = require("./routes/static/authentication.js");
 
 const app = express();
 app.use(morgan("dev"));
@@ -17,8 +17,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
+  const livereload = require("livereload");
+  const connectLiveReload = require("connect-livereload");
+
   const liveReloadServer = livereload.createServer();
-  liveReloadServer.watch(path.join(".", "backend", "static"));
+  liveReloadServer.watch(path.join(__dirname, "backend", "static"));
   liveReloadServer.server.once("connection", () => {
     setTimeout(() => {
       liveReloadServer.refresh("/");
