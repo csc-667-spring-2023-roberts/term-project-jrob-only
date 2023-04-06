@@ -1,8 +1,7 @@
 const express = require("express");
 const createHttpError = require("http-errors");
 const path = require("path");
-const livereload = require("livereload");
-const connectLiveReload = require("connect-livereload");
+
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const homeRoutes = require("./routes/static/home.js");
@@ -33,10 +32,10 @@ if (process.env.NODE_ENV === "development") {
 
 const PORT = process.env.PORT || 3000;
 
-app.set("views", path.join(".", "backend", "views"));
+app.set("views", path.join(__dirname, "backend", "views"));
 app.set("view engine", "ejs");
 
-app.use(express.static(path.join(".", "backend", "static")));
+app.use(express.static(path.join(__dirname, "backend", "static")));
 
 app.use("/", homeRoutes);
 app.use("/games", gamesRoutes);
