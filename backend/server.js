@@ -10,6 +10,7 @@ const homeRoutes = require("./routes/static/home.js");
 const gamesRoutes = require("./routes/static/games.js");
 const lobbyRoutes = require("./routes/static/lobby.js");
 const authenticationRoutes = require("./routes/static/authentication.js");
+const testRoutes = require("./routes/test/index.js");
 
 const app = express();
 app.use(morgan("dev"));
@@ -43,6 +44,7 @@ app.use("/", homeRoutes);
 app.use("/games", gamesRoutes);
 app.use("/lobby", lobbyRoutes);
 app.use("/authentication", authenticationRoutes);
+app.use("/test", testRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
