@@ -4,6 +4,9 @@ const path = require("path");
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+
+require("dotenv").config();
+
 const homeRoutes = require("./routes/static/home.js");
 const gamesRoutes = require("./routes/static/games.js");
 const lobbyRoutes = require("./routes/static/lobby.js");
