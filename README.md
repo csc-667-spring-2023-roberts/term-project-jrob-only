@@ -1,9 +1,6 @@
 # term-project-jrob-only
 
-1. Home page (unauthenticated)
-
-- Login
-
-2. Sign up
-3. Lobby page (authenticated)
-4. Game room
+1. Socket IO (integrate session)
+2. F/E Chat form
+3. Route post chat messages to the server
+4. Set up the F/E to use Socket IO (register for chat events)
