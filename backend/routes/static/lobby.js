@@ -2,8 +2,13 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", (_request, response) => {
-  response.render("lobby", { title: "Jrob's Term Project" });
+router.get("/", (request, response) => {
+  const { user } = request.session;
+
+  response.render("lobby", {
+    title: "Jrob's Term Project",
+    ...user,
+  });
 });
 
 module.exports = router;

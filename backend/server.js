@@ -1,11 +1,14 @@
 const express = require("express");
 const createHttpError = require("http-errors");
 const path = require("path");
+const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
+const db = require("./db/connection.js");
 
 const homeRoutes = require("./routes/static/home.js");
 const gamesRoutes = require("./routes/static/games.js");
@@ -18,6 +21,15 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  session({
+    store: new pgSession({ pgPromise: db }),
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
+  })
+);
 
 if (process.env.NODE_ENV === "development") {
   const livereload = require("livereload");
