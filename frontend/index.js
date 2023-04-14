@@ -1,4 +1,5 @@
-// Comment
+import io from "socket.io-client";
+
 console.log("Hello from bundled javascript");
 
-console.log("hi");
+const socket = io();

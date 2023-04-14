@@ -41,6 +41,8 @@
     "pg": "^8.10.0",
     "pg-promise": "^11.4.3",
     "prettier": "^2.8.4",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
     "ts-loader": "^9.4.2",
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1"
