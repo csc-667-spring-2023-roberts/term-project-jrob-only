@@ -10,4 +10,12 @@ router.get("/login", (_request, response) => {
   response.render("login", { title: "Jrob's Term Project" });
 });
 
+router.post("/sign-up", (_request, response) => {
+  response.render("sign-up", { title: "Jrob's Term Project" });
+});
+
+router.post("/login", (_request, response) => {
+  response.render("login", { title: "Jrob's Term Project" });
+});
+
 module.exports = router;

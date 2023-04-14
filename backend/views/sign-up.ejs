@@ -10,9 +10,24 @@
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/authentication/login">Login</a></li>
-      <li><a href="/authentication/sign-up">Sign Up</a></li>
       <li><a href="/lobby">Lobby</a></li>
       <li><a href="/games/42">Game (42)</a></li>
     </ul>
+
+    <form action="/authentication/sign-up" method="post">
+      <label>
+        <em>Username</em>
+        <input name="username" placeholder="Username" autocomplete="user" />
+      </label>
+      <label>
+        <em>Email</em>
+        <input name="email" placeholder="Email" autocomplete="email" />
+      </label>
+      <label>
+        <em>Password</em>
+        <input name="password" type="password" autocomplete="new-password" />
+      </label>
+      <input type="submit" value="Sign Up" />
+    </form>
   </body>
 </html>
