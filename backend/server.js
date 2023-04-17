@@ -3,9 +3,7 @@ const createHttpError = require("http-errors");
 const path = require("path");
 const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
-const http = require("http");
-const { Server } = require("socket.io");
-
+const initSockets = require("./sockets/init.js");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 
@@ -18,6 +16,7 @@ const gamesRoutes = require("./routes/static/games.js");
 const lobbyRoutes = require("./routes/static/lobby.js");
 const authenticationRoutes = require("./routes/static/authentication.js");
 const testRoutes = require("./routes/static/test.js");
+const chatRoutes = require("./routes/static/chat.js");
 
 const app = express();
 app.use(morgan("dev"));
@@ -34,13 +33,7 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
-
-const server = http.createServer(app);
-const io = new Server(server);
-io.engine.use(sessionMiddleware);
-io.on("connection", (_socket) => {
-  console.log("Connection");
-});
+const server = initSockets(app, sessionMiddleware);
 
 if (process.env.NODE_ENV === "development") {
   const livereload = require("livereload");
@@ -69,6 +62,7 @@ app.use("/games", requireAuthentication, gamesRoutes);
 app.use("/lobby", requireAuthentication, lobbyRoutes);
 app.use("/authentication", authenticationRoutes);
 app.use("/test", testRoutes);
+app.use("/chat", requireAuthentication, chatRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
