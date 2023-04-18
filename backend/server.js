@@ -5,6 +5,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const addSessionLocals = require("./middleware/add-session-locals.js");
 const isAuthenticated = require("./middleware/is-authenticated.js");
+const initSockets = require("./sockets/initialize.js");
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -17,6 +18,7 @@ const gamesRoutes = require("./routes/static/games.js");
 const lobbyRoutes = require("./routes/static/lobby.js");
 const authenticationRoutes = require("./routes/static/authentication.js");
 const testRoutes = require("./routes/static/test.js");
+const chatRoutes = require("./routes/static/chat.js");
 
 const app = express();
 app.use(morgan("dev"));
@@ -48,6 +50,7 @@ const sessionMiddleware = session({
 });
 
 app.use(sessionMiddleware);
+const server = initSockets(app, sessionMiddleware);
 
 const PORT = process.env.PORT || 3000;
 
@@ -62,8 +65,9 @@ app.use("/games", isAuthenticated, gamesRoutes);
 app.use("/lobby", isAuthenticated, lobbyRoutes);
 app.use("/authentication", authenticationRoutes);
 app.use("/test", testRoutes);
+app.use("/chat", chatRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
