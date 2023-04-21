@@ -5,6 +5,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const addSessionLocals = require("./middleware/add-session-locals.js");
 const isAuthenticated = require("./middleware/is-authenticated.js");
+const redirectIfAuthenticated = require("./middleware/redirect-if-authenticated.js");
 const initSockets = require("./sockets/initialize.js");
 
 const morgan = require("morgan");
