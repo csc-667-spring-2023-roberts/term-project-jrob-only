@@ -6,6 +6,10 @@
 exports.up = (pgm) => {
   pgm.createTable("games", {
     id: "id",
+    completed: {
+      type: "boolean",
+      default: false,
+    },
     created_at: {
       type: "timestamp",
       notNull: true,
