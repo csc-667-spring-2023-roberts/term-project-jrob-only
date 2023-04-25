@@ -12,3 +12,7 @@
 3. ~~Ability to join a game~~
 
 4. Ability to make a move in game
+
+   1. ~~Add UI for tic tac toe~~
+   2. users
+   3. Chat?

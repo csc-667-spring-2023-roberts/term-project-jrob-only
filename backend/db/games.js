@@ -7,7 +7,19 @@ const INSERT_FIRST_USER_SQL =
 
 const create = async (creator_id) => {
   const { id } = await db.one(CREATE_GAME_SQL);
+
   await db.none(INSERT_FIRST_USER_SQL, [creator_id, id]);
+
+  const board = [];
+  for (let row = 0; row < 3; row++) {
+    for (let column = 0; column < 3; column++) {
+      board.push(
+        `INSERT INTO game_moves (game_id, user_id, x_coordinate, y_coordinate) VALUES ($1, 0, ${row}, ${column})`
+      );
+    }
+  }
+
+  await Promise.all(board.map((query) => db.none(query, [id])));
 
   return { id };
 };
@@ -25,4 +37,22 @@ const JOIN_GAME_SQL =
 
 const join = (game_id, user_id) => db.none(JOIN_GAME_SQL, [game_id, user_id]);
 
-module.exports = { create, list, join };
+const state = async (game_id) => {
+  const users = await db.many(
+    "SELECT users.username, users.id AS user_id FROM users, game_users WHERE users.id=game_users.user_id AND game_users.game_id=$1 ORDER BY game_users.created_at",
+    [game_id]
+  );
+
+  const board = await db.many(
+    "SELECT user_id, x_coordinate, y_coordinate FROM game_moves WHERE game_id=$1",
+    [game_id]
+  );
+
+  return {
+    game_id,
+    users,
+    board,
+  };
+};
+
+module.exports = { create, list, join, state };

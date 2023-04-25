@@ -1,6 +1,6 @@
 const express = require("express");
 const Games = require("../../db/games.js");
-const { GAME_CREATED } = require("../../../shared/constants.js");
+const { GAME_CREATED, GAME_UPDATED } = require("../../../shared/constants.js");
 
 const router = express.Router();
 
@@ -37,9 +37,18 @@ router.get("/create", async (request, response) => {
 router.get("/:id/join", async (request, response) => {
   const { id: game_id } = request.params;
   const { id: user_id } = request.session.user;
+  const io = request.app.get("io");
 
   try {
     await Games.join(game_id, user_id);
+
+    const state = await Games.state(game_id);
+
+    state.user_id = user_id;
+    state.users[0].letter = "X";
+    state.users[1].letter = "O";
+
+    io.emit(GAME_UPDATED(game_id), state);
 
     response.redirect(`/games/${game_id}`);
   } catch (error) {
