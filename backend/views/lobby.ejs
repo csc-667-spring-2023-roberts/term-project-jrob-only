@@ -11,7 +11,15 @@
             class="ms-btn ms-action"
             >Create Game</a
           >
-          <ul id="game-list"></ul>
+          <ul id="game-list">
+            <% for(let i = 0; i < games.length; i++) { %>
+            <li>
+              <a href="/api/games/<%= games[i].id %>/join"
+                >Join <span><%= games[i].id %></span></a
+              >
+            </li>
+            <% } %>
+          </ul>
         </div>
         <div class="col-sm">
           <div id="chat-container">
@@ -27,5 +35,13 @@
         </div>
       </div>
     </div>
+
+    <template id="available-game-item">
+      <div>
+        <li>
+          <a href="#">Join <span>42</span></a>
+        </li>
+      </div>
+    </template>
   </body>
 </html>
