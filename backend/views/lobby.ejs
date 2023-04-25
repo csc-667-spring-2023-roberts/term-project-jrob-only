@@ -4,15 +4,26 @@
     <%- include('partials/authenticated_nav.ejs') %>
     <div class="container">
       <div class="row">
-        <div id="chat-container">
-          <div id="messages"></div>
-          <label>
-            <input
-              id="chatMessage"
-              name="chat-message"
-              placeholder="Message..."
-            />
-          </label>
+        <div class="col-sm">
+          <a
+            href="/api/games/create"
+            id="create-game-link"
+            class="ms-btn ms-action"
+            >Create Game</a
+          >
+          <ul id="game-list"></ul>
+        </div>
+        <div class="col-sm">
+          <div id="chat-container">
+            <div id="messages"></div>
+            <label>
+              <input
+                id="chatMessage"
+                name="chat-message"
+                placeholder="Message..."
+              />
+            </label>
+          </div>
         </div>
       </div>
     </div>

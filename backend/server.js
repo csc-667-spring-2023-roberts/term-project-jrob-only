@@ -5,7 +5,6 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 const addSessionLocals = require("./middleware/add-session-locals.js");
 const isAuthenticated = require("./middleware/is-authenticated.js");
-const redirectIfAuthenticated = require("./middleware/redirect-if-authenticated.js");
 const initSockets = require("./sockets/initialize.js");
 
 const morgan = require("morgan");
@@ -20,6 +19,7 @@ const lobbyRoutes = require("./routes/static/lobby.js");
 const authenticationRoutes = require("./routes/static/authentication.js");
 const testRoutes = require("./routes/static/test.js");
 const chatRoutes = require("./routes/static/chat.js");
+const apiGamesRoutes = require("./routes/api/games.js");
 
 const app = express();
 app.use(morgan("dev"));
@@ -63,6 +63,7 @@ app.use(addSessionLocals);
 
 app.use("/", homeRoutes);
 app.use("/games", isAuthenticated, gamesRoutes);
+app.use("/api/games", isAuthenticated, apiGamesRoutes);
 app.use("/lobby", isAuthenticated, lobbyRoutes);
 app.use("/authentication", authenticationRoutes);
 app.use("/test", testRoutes);
