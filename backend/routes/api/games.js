@@ -34,6 +34,24 @@ router.get("/create", async (request, response) => {
   }
 });
 
+router.post("/:id/move", async (request, response) => {
+  const { id: game_id } = request.params;
+  const { id: user_id } = request.session.user;
+  const { x, y } = request.body;
+  const io = request.app.get("io");
+
+  try {
+    const state = await Games.isMoveValid(game_id, user_id, x, y);
+    io.emit(GAME_UPDATED(game_id), state);
+
+    response.status(200).send();
+  } catch (error) {
+    console.log({ error });
+
+    response.status(500).send();
+  }
+});
+
 router.get("/:id/join", async (request, response) => {
   const { id: game_id } = request.params;
   const { id: user_id } = request.session.user;
@@ -42,12 +60,7 @@ router.get("/:id/join", async (request, response) => {
   try {
     await Games.join(game_id, user_id);
 
-    const state = await Games.state(game_id);
-
-    state.user_id = user_id;
-    state.users[0].letter = "X";
-    state.users[1].letter = "O";
-
+    const state = await Games.state(game_id, user_id);
     io.emit(GAME_UPDATED(game_id), state);
 
     response.redirect(`/games/${game_id}`);

@@ -3,10 +3,14 @@ import events from "../backend/sockets/constants";
 import { gameCreatedHandler } from "./games/created";
 import { gameUpdatedHandler } from "./games/updated";
 import { getGameId } from "./games/get-game-id";
+import { initializeBoard } from "./games/move";
 
 const socket = io();
+const game_id = getGameId(document.location.pathname);
+
 gameCreatedHandler(socket);
-gameUpdatedHandler(socket, getGameId(document.location.pathname));
+gameUpdatedHandler(socket, game_id);
+initializeBoard(game_id);
 
 const messageContainer = document.querySelector("#messages");
 
